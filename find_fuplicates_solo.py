@@ -16,7 +16,12 @@ def list_files(path: str) -> list[str]:
         list[str]: A list of file paths found in the directory and its subdirectories.
     """
     # Run "pytest find_duplicates_solo.py -k list_files" to test your implementation
-    raise NotImplementedError()
+    import os
+    all_files = []
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            all_files.append(os.path.join(root, file))
+    return all_files
 
 
 def hash_file(file_path: str) -> str:
@@ -30,7 +35,12 @@ def hash_file(file_path: str) -> str:
         str: The hexadecimal SHA-1 hash of the file.
     """
     # Run "pytest find_duplicates_solo.py -k hash_file" to test your implementation
-    raise NotImplementedError()
+    import hashlib
+    sha1 = hashlib.sha1()
+    with open(file_path, "rb") as f:
+        while chunk := f.read(8192):
+            sha1.update(chunk)
+    return sha1.hexdigest()
 
 
 def group_files_by_full_hash(file_paths: list[str]) -> list[list[str]]:
